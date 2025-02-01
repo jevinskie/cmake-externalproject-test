@@ -1,2 +1,4 @@
 /build*/
 gmp.h
+/empty.o
+/libempty.a
