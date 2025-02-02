@@ -5,6 +5,8 @@ set -euxo pipefail
 echo '"$@:" ' "$@"
 echo '$@: ' $@
 
+sleep 5
+
 mkdir -p $(dirname "$1")
 echo "'h', 'i', '\0'" > "$1"
 

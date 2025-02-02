@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-const char str[] = {
+static const char str[] = {
 #include "gmp.h"
 };
 

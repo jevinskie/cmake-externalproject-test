@@ -27,3 +27,6 @@ add_library(GMP ALIAS GMP::GMP)
 
 add_executable(cmake-externalproject-test main.c)
 target_link_libraries(cmake-externalproject-test GMP)
+
+add_library(libfoo STATIC lib.c)
+target_link_libraries(libfoo GMP)
