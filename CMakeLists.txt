@@ -29,5 +29,26 @@ add_library(GMP ALIAS GMP::GMP)
 add_executable(cmake-externalproject-test main.c)
 target_link_libraries(cmake-externalproject-test GMP)
 
-add_library(libfoo STATIC lib.c)
-target_link_libraries(libfoo GMP)
+add_library(bar STATIC bar.c)
+# fix the following "missing statement" automatically
+# target_link_libraries(bar GMP)
+
+add_library(foo STATIC foo.c)
+# set_target_properties(libfoo PROPERTIES NAMESPACE GMPNS)
+target_link_libraries(foo bar GMP)
+
+function (_get_all_cmake_targets out_var current_dir)
+    get_property(targets DIRECTORY ${current_dir} PROPERTY BUILDSYSTEM_TARGETS)
+    get_property(subdirs DIRECTORY ${current_dir} PROPERTY SUBDIRECTORIES)
+
+    foreach(subdir ${subdirs})
+        _get_all_cmake_targets(subdir_targets ${subdir})
+        list(APPEND targets ${subdir_targets})
+    endforeach()
+
+    set(${out_var} ${targets} PARENT_SCOPE)
+endfunction()
+
+# Run at end of top-level CMakeLists
+_get_all_cmake_targets(all_targets ${CMAKE_CURRENT_LIST_DIR})
+message(WARNING "targets: ${all_targets}")
