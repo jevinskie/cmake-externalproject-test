@@ -6,13 +6,12 @@ include(ExternalProject)
 
 ExternalProject_Add(gmp_ext
     SOURCE_DIR          ${CMAKE_CURRENT_SOURCE_DIR}/gmp
-    CONFIGURE_COMMAND   rsync -a ${CMAKE_CURRENT_SOURCE_DIR}/gmp/ . &&
-                        mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/gmp-prefix/include
+    CONFIGURE_COMMAND   rsync -a ${CMAKE_CURRENT_SOURCE_DIR}/gmp/ .
     INSTALL_COMMAND     ""
     BUILD_COMMAND       ./build-gmp.sh ${CMAKE_CURRENT_BINARY_DIR}/gmp-prefix/include/gmp.h ${CMAKE_CURRENT_BINARY_DIR}/gmp-prefix/lib/libempty.a
     PREFIX              gmp-build
     INSTALL_DIR         gmp-prefix
-    BUILD_BYPRODUCTS    ${CMAKE_CURRENT_BINARY_DIR}/gmp-prefix/include/gmp.h ${CMAKE_CURRENT_BINARY_DIR}/gmp-prefix/lib/libempty.a
+    BUILD_BYPRODUCTS    gmp-prefix/include/gmp.h gmp-prefix/lib/libempty.a
 )
 
 file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/gmp-prefix/include")
