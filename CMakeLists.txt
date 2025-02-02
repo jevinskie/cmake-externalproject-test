@@ -6,7 +6,8 @@ include(ExternalProject)
 
 ExternalProject_Add(gmp_ext
     SOURCE_DIR          ${CMAKE_CURRENT_SOURCE_DIR}/gmp
-    CONFIGURE_COMMAND   rsync -a ${CMAKE_CURRENT_SOURCE_DIR}/gmp/ .
+    CONFIGURE_COMMAND   rsync -a ${CMAKE_CURRENT_SOURCE_DIR}/gmp/ . &&
+                        ./configure-gmp.sh
     INSTALL_COMMAND     ""
     BUILD_COMMAND       ./build-gmp.sh ${CMAKE_CURRENT_BINARY_DIR}/gmp-prefix/include/gmp.h ${CMAKE_CURRENT_BINARY_DIR}/gmp-prefix/lib/libempty.a
     PREFIX              gmp-build
@@ -17,7 +18,7 @@ ExternalProject_Add(gmp_ext
 file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/gmp-prefix/include")
 
 add_library(GMP::GMP UNKNOWN IMPORTED)
-add_dependencies(GMP::GMP ${CMAKE_CURRENT_BINARY_DIR}/gmp-prefix/include/gmp.h)
+add_dependencies(GMP::GMP gmp_ext)
 set_target_properties(GMP::GMP PROPERTIES
     INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_BINARY_DIR}/gmp-prefix/include"
     IMPORTED_LOCATION "${CMAKE_CURRENT_BINARY_DIR}/gmp-prefix/lib/libempty.a"
